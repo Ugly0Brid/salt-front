@@ -20,7 +20,7 @@ export default {
         if (location.pathname === '/users') {
           dispatch({
             type: 'query',
-            payload: {"name": location.search.split("?")[1]}
+            payload: {"name": location.search.split("?")[1], "page": 1, "size": 10}
           })
         }
       })
@@ -36,7 +36,7 @@ export default {
           payload: {
             list: data.list,
             total: data.total,
-            current: 1,
+            current: data.current,
             resourceName: payload.name
           }
         });
@@ -50,18 +50,19 @@ export default {
       } else if (payload.type === 'hide') {
         yield put({type: 'hideModal', payload: {currentItem: {}}})
       } else {
+        payload.data['resource_name'] = payload.name;
         const {data} = yield call(create, payload.data);
         if (data) {
           if (data.status === 0) {
             yield put({type: 'createSuccess'});
-            notification["success"]({message: '成功', description: '更新数据成功.'});
+            notification["success"]({message: '成功', description: '创建数据成功.'});
             yield put(routerRedux.push('/users?' + payload.name))
           } else {
             notification["error"]({message: '失败', description: data.error});
             return false
           }
         } else {
-          notification["error"]({message: '失败', description: '更新数据失败.'});
+          notification["error"]({message: '失败', description: '创建数据失败.'});
           return false
         }
       }
@@ -87,6 +88,7 @@ export default {
       if (payload.type === 'update') {
         yield put({type: 'showModal', payload: {currentItem: payload.record}});
       } else {
+        payload.data['resource_name'] = payload.name;
         const {data} = yield call(update, payload.data);
         if (data) {
           if (data.status === 0) {

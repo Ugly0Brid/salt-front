@@ -31,10 +31,10 @@ const UserPage = ({location, dispatch, user}) => {
   return (
     <div>
       <Row>
-        <Col span={6}>
+        <Col span={6} style={{paddingBottom: 10}}>
           <UserSearch {...UserSearchProps}/>
         </Col>
-        <Col span={6} offset="1">
+        <Col span={6} offset="1" style={{paddingBottom: 10}}>
           <UserModal {...userModalProps} />
           {/*<UserModal {...userModalProps} />*/}
         </Col>

@@ -24,19 +24,19 @@ const UserList = ({total, current, loading, dispatch, dataSource, resourceName})
   const pagination = {
     total,
     current,
-    pageSize: 10,
-    onChange: () => {
+    showTotal: () => `总共 ${total} 条`,
+    showQuickJumper: true,
+    showSizeChanger: true,
+    onChange: (page, pageSize) => {
+      dispatch({type: 'user/query', payload: {"name": resourceName, "page": page, "size": pageSize}})
     },
+    onShowSizeChange: (current, size) => {
+      dispatch({type: 'user/query', payload: {"name": resourceName, "page": current, "size": size}})
+    }
   };
   return (
     <div>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        loading={loading}
-        rowkey={record => record.id}
-        pagination={pagination}
-      />
+      <Table size="middle" columns={columns} dataSource={dataSource} loading={loading} rowkey={record => record.id} pagination={pagination}/>
     </div>
   )
 };
