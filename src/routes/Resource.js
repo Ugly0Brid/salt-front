@@ -30,11 +30,11 @@ const MainPage = ({location}) => {
     <div>
       <Layout>
         <Sider width={200} style={{background: '#fff'}}>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{height: '100%', borderRight: 0}}>
-            <Menu.Item key="1"><Link to={`resource?datacenter`}>机房</Link></Menu.Item>
-            <Menu.Item key="2"><Link to={`resource?frame`}>机架</Link></Menu.Item>
-            <Menu.Item key="3"><Link to={`resource?pmserver`}>物理机</Link></Menu.Item>
-            <Menu.Item key="4"><Link to={`resource?vmserver`}>虚拟机</Link></Menu.Item>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={location.search.split('?').filter(i => i)} style={{height: '100%', borderRight: 0}}>
+            <Menu.Item key="datacenter"><Link to={`resource?datacenter`}>机房</Link></Menu.Item>
+            <Menu.Item key="frame"><Link to={`resource?frame`}>机架</Link></Menu.Item>
+            <Menu.Item key="pmserver"><Link to={`resource?pmserver`}>物理机</Link></Menu.Item>
+            <Menu.Item key="vmserver"><Link to={`resource?vmserver`}>虚拟机</Link></Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{padding: '0 24px 24px'}}>
