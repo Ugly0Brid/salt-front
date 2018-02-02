@@ -17,7 +17,7 @@ const HomePage = ({location}) => {
           {/*<img alt="" src={loginImage} style={{width: 200, height: 60, marginLeft: '-13px'}}/>*/}
           {/*</div>*/}
           <div style={{width: 120, height: 31, margin: '16px 28px 16px 0', float: 'left', background: 'rgba(255, 255, 255, .2)'}}/>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['index']} style={{lineHeight: '64px'}}>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={location.pathname.split('/').filter(i => i)} style={{lineHeight: '64px'}}>
             <Menu.Item key="index"><Link to={`index`}>主页</Link></Menu.Item>
             <Menu.Item key="resource"><Link to={`resource?datacenter`}>资源</Link></Menu.Item>
             <Menu.Item key="deploy">部署</Menu.Item>
