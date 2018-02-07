@@ -27,8 +27,8 @@ const columns = (name) => {
   } else if (name === 'pmserver') {
     columns.push(
       {title: '名称', dataIndex: 'name', key: 'name',},
-      {title: 'IP', dataIndex: 'ip', key: 'ip',},
-      {title: 'MAC地址', dataIndex: 'mac', key: 'mac',},
+      {title: 'IP', dataIndex: 'ip', key: 'ip', width: '6.8%'},
+      {title: 'MAC地址', dataIndex: 'mac', key: 'mac', width: '8%'},
       {title: '内存', dataIndex: 'memory', key: 'memory',},
       {title: 'CPU', dataIndex: 'cpu', key: 'cpu',},
       {title: '系统', dataIndex: 'os', key: 'os',},
@@ -39,11 +39,11 @@ const columns = (name) => {
   } else if (name === 'vmserver') {
     columns.push(
       {title: '名称', dataIndex: 'name', key: 'name',},
-      {title: 'IP', dataIndex: 'ip', key: 'ip',},
-      {title: 'MAC地址', dataIndex: 'mac', key: 'mac',},
+      {title: 'IP', dataIndex: 'ip', key: 'ip', width: '6.8%'},
+      {title: 'MAC地址', dataIndex: 'mac', key: 'mac', width: '8%'},
       {title: '内存', dataIndex: 'memory', key: 'memory',},
       {title: 'CPU', dataIndex: 'cpu', key: 'cpu',},
-      {title: 'OS', dataIndex: 'os', key: 'os',},
+      {title: '系统', dataIndex: 'os', key: 'os',},
       {title: 'Minion名称', dataIndex: 'minion_name', key: 'minion_name',},
       {title: 'Minion状态', dataIndex: 'minion_status', key: 'minion_status',},
       {title: '所属机架', dataIndex: 'frame', key: 'frame',},
