@@ -1,4 +1,4 @@
-import {query, create, delete_r, update} from '../services/resource';
+import {query, create, delete_r, update,  scan_host} from '../services/resource';
 import {routerRedux} from 'dva/router'
 import {notification} from 'antd';
 
@@ -12,6 +12,7 @@ export default {
     currentPageSize: 10,
     currentItem: {},
     modalVisible: false,
+    select_list: [],
     modalType: 'create',
     resourceName: null,
   },
@@ -32,16 +33,21 @@ export default {
       yield put({type: 'showLoading'});
       const {data} = yield call(query, payload);
       if (data) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.list,
-            total: data.total,
-            current: data.current,
-            resourceName: payload.name,
-            currentPageSize: payload.size,
-          }
-        });
+        if (data.status === 0) {
+          yield put({
+            type: 'querySuccess',
+            payload: {
+              list: data.item_list,
+              total: data.count,
+              select_list: data.select_list,
+              current: data.current,
+              resourceName: payload.name,
+              currentPageSize: payload.size,
+            }
+          });
+        } else {
+          notification["error"]({message: '失败', description: data.error});
+        }
       } else {
         notification["error"]({message: '失败', description: data.error});
       }
@@ -78,15 +84,14 @@ export default {
           yield put(routerRedux.push({pathname: '/resource?' + payload.name, query: {"name": payload.name, "size": payload.size, "page": payload.page}}));
           // yield call(query, {"name": payload.name, "size": payload.size, "page": payload.page});
           notification["success"]({message: '成功', description: '删除数据成功.',});
-          yield put({type: 'deleteSuccess'});
+
         } else {
-          notification["success"]({message: '成功', description: data.error});
-          return false
+          notification["error"]({message: '失败', description: data.error});
         }
       } else {
-        notification["success"]({message: '成功', description: '删除数据失败.'});
-        return false
+        notification["error"]({message: '失败', description: '删除数据失败.'});
       }
+      yield put({type: 'deleteSuccess'});
     },
     * update({payload}, {select, put, call}) {
       if (payload.type === 'update') {
@@ -98,7 +103,8 @@ export default {
           if (data.status === 0) {
             yield call(query, {"name": payload.name, "size": payload.size, "page": payload.page});
             notification["success"]({message: '成功', description: '更新数据成功.',});
-            // yield put({type: 'updateSuccess'});
+            yield put(routerRedux.push({pathname: '/resource?' + payload.name, query: {"name": payload.name, "size": payload.size, "page": payload.page}}));
+            yield put({type: 'updateSuccess'});
           } else {
             notification["error"]({message: '失败', description: data.error});
             return false
@@ -107,6 +113,21 @@ export default {
           notification["error"]({message: '失败', description: '更新数据失败.',});
           return false
         }
+      }
+    },
+    * scan({payload}, {select, put, call}) {
+      yield put({type: 'showLoading'});
+      const {data} = yield call(scan_host);
+      if (data) {
+        yield put({type: 'hideLoading'});
+        if (data.status === 0) {
+          yield put(routerRedux.push('/resource?' + payload.name));
+          notification["success"]({message: '成功', description: '成功创建扫描任务.',});
+        } else {
+          notification["error"]({message: '失败', description: '创建扫描任务失败.',});
+        }
+      } else {
+        notification["error"]({message: '失败', description: '创建扫描任务失败.',});
       }
     }
   },
@@ -121,10 +142,9 @@ export default {
       return {...state, ...action.payload, modalVisible: true}
     },
     hideModal(state, action) {
-      return {...state, ...action, modalVisible: false}
+      return {...state, ...action.payload, modalVisible: false}
     },
     querySuccess(state, action) {
-      console.log(action.payload);
       return {...state, ...action.payload, loading: false}
     },
     createSuccess(state, action) {

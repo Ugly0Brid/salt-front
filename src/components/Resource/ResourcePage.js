@@ -8,7 +8,7 @@ import ResourceModal from './ResourceModal';
 
 const ResourcePage = ({location, dispatch, resource}) => {
   const {
-    loading, list, total, current, modalVisible, currentItem, resourceName,currentPageSize
+    loading, list, total, current, modalVisible, currentItem, resourceName,currentPageSize,select_list
   } = resource;
   const ResourceSearchProps = {
     dispatch,
@@ -28,6 +28,8 @@ const ResourcePage = ({location, dispatch, resource}) => {
     dispatch,
     currentItem,
     resourceName,
+    select_list,
+    loading,
   };
   return (
     <div>

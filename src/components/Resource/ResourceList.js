@@ -14,7 +14,7 @@ const ResourceList = ({total, current, loading, currentPageSize, dispatch, dataS
         }}>编辑</a>
         &nbsp;
         <Popconfirm title="确定要删除吗？" onConfirm={() => {
-          dispatch({type: 'resource/delete', payload: {"id": record.id, "name": resourceName, "size": currentPageSize, "page": current}})
+          dispatch({type: 'resource/delete', payload: {"id": "[" + record.id + "]", "name": resourceName, "size": currentPageSize, "page": current}})
         }}>
           <a>删除</a>
         </Popconfirm>

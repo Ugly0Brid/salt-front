@@ -11,9 +11,17 @@ export async function login(payload) {
   })
 }
 
+export async function logout(payload) {
+  return request(`/api/logout/`)
+}
+
 export async function query(payload) {
   return request(`/api/resource/list/?${qs.stringify(payload)}`)
 }
+
+// export async function query_select(payload) {
+//   return request(`/api/resource/select/?${qs.stringify(payload)}`)
+// }
 
 export async function create(payload) {
   return request(`/api/resource/create/`, {
@@ -37,4 +45,8 @@ export async function update(payload) {
       'Content-Type': 'application/json',
     }
   })
+}
+
+export async function scan_host(payload) {
+  return request(`/api/resource/scan/`)
 }

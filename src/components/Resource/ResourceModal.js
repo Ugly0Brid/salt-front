@@ -2,12 +2,13 @@ import React from 'react';
 import {Form, Modal, Button, Icon} from 'antd';
 import FormColumns from './FormColumns';
 
-const ResourceModal = ({modalVisible, dispatch, currentItem, resourceName, form: {getFieldDecorator, validateFieldsAndScroll,}}) => {
+const ResourceModal = ({modalVisible, dispatch, currentItem, resourceName, select_list, loading, form: {getFieldDecorator, validateFieldsAndScroll,}}) => {
   const {id} = currentItem;
   const FormColumnsProps = {
     currentItem,
     getFieldDecorator,
     resourceName,
+    select_list,
   };
   const showModal = () => {
     dispatch({type: 'resource/create', payload: {"type": "show", "name": resourceName}})
@@ -30,10 +31,15 @@ const ResourceModal = ({modalVisible, dispatch, currentItem, resourceName, form:
       }
     })
   };
+  const handleScanHost = () => {
+    dispatch({type: 'resource/scan', payload: {"name": resourceName}})
+  };
   return (
     <div style={{float: 'left', padding: '0 10px 0 0'}}>
       <Form>
         <Button type="primary" onClick={showModal}><Icon type="plus"/>新增</Button>
+        {(resourceName === "pmserver" || resourceName === "vmserver") ?
+          <Button type="primary" loading={loading} onClick={handleScanHost} style={{marginLeft: '10px'}}><Icon type="scan"/>扫描</Button> : ""}
         <Modal visible={modalVisible} onOk={handleButClick} onCancel={handleCancel} destroyOnClose>
           <FormColumns {...FormColumnsProps}/>
         </Modal>
